@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Attendance Scanner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f5f4f0; --surface: #ffffff; --surface2: #f0efe9;
+    --border: #e2e0d8; --text: #1a1916; --text2: #6b6860; --text3: #a8a69e;
+    --green: #1a7a4a; --green-bg: #e8f5ee; --red: #c0392b;
+    --accent: #2563eb; --accent-bg: #eff4ff;
+    --amber: #92400e; --amber-bg: #fffbeb;
+    --radius: 12px; --radius-sm: 8px;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 20px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; }
+  .logo { width: 36px; height: 36px; background: var(--text); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; }
+  .logo svg { width: 20px; height: 20px; }
+  header h1 { font-size: 16px; font-weight: 600; }
+  .sync-pill { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); background: var(--surface2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 99px; }
+  .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: #d1d5db; flex-shrink: 0; transition: background 0.3s; }
+  .sync-dot.connected { background: #16a34a; }
+  .sync-dot.syncing { background: #f59e0b; animation: pulse 1s infinite; }
+  .sync-dot.error { background: var(--red); }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  main { max-width: 480px; margin: 0 auto; padding: 20px 16px 40px; display: flex; flex-direction: column; gap: 16px; }
+
+  /* Setup banner */
+  #setup-card { background: var(--amber-bg); border: 1px solid #fcd34d; border-radius: var(--radius); padding: 16px; }
+  #setup-card h3 { font-size: 14px; font-weight: 600; color: var(--amber); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  #setup-card p { font-size: 13px; color: var(--amber); margin-bottom: 10px; line-height: 1.5; }
+  .url-row { display: flex; gap: 8px; }
+  .url-row input { flex: 1; padding: 8px 10px; font-size: 12px; font-family: 'DM Mono', monospace; border: 1px solid #fcd34d; border-radius: var(--radius-sm); background: #fff; color: var(--text); outline: none; min-width: 0; }
+  .url-row input:focus { border-color: var(--accent); }
+  .url-row button { padding: 8px 14px; font-size: 13px; font-weight: 500; background: var(--text); color: #fff; border: none; border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap; }
+  #setup-card.connected { background: var(--green-bg); border-color: #a7d7bb; }
+  #setup-card.connected h3 { color: var(--green); }
+  #setup-card.connected p { color: var(--green); }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .card-header { padding: 14px 16px 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .card-header h2 { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .card-body { padding: 16px; }
+
+  /* Scanner */
+  #scanner-wrap { background: #111; border-radius: var(--radius-sm); overflow: hidden; position: relative; min-height: 260px; display: flex; align-items: center; justify-content: center; }
+  #preview { width: 100%; display: none; }
+  #qr-canvas { display: none; }
+  .scan-placeholder { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 2rem; text-align: center; }
+  .scan-placeholder svg { width: 48px; height: 48px; color: #444; }
+  .scan-placeholder p { font-size: 13px; color: #555; }
+  .scan-overlay { position: absolute; top:0;left:0;right:0;bottom:0; pointer-events:none; display:none; }
+  .corner { position:absolute; width:28px; height:28px; border-color:#fff; border-style:solid; opacity:0.8; }
+  .corner.tl { top:24px;left:50%;transform:translateX(-65px);border-width:3px 0 0 3px;border-radius:4px 0 0 0; }
+  .corner.tr { top:24px;left:50%;transform:translateX(37px);border-width:3px 3px 0 0;border-radius:0 4px 0 0; }
+  .corner.bl { bottom:24px;left:50%;transform:translateX(-65px);border-width:0 0 3px 3px;border-radius:0 0 0 4px; }
+  .corner.br { bottom:24px;left:50%;transform:translateX(37px);border-width:0 3px 3px 0;border-radius:0 0 4px 0; }
+  .scan-line { position:absolute;left:50%;transform:translateX(-50%);width:130px;height:2px;background:rgba(255,255,255,0.6);animation:scanMove 2s ease-in-out infinite; }
+  @keyframes scanMove { 0%,100%{top:30px;opacity:0.6} 50%{top:calc(100% - 50px);opacity:1} }
+  #detect-banner { display:none; background:var(--green-bg); border:1px solid #a7d7bb; border-radius:var(--radius-sm); padding:10px 14px; margin-top:12px; font-size:13px; color:var(--green); align-items:center; gap:8px; }
+
+  /* Buttons */
+  .btn { display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px 16px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;border-radius:var(--radius-sm);cursor:pointer;border:none;transition:opacity 0.15s,transform 0.1s; }
+  .btn:active { transform:scale(0.98); }
+  .btn-dark { background:var(--text);color:#fff;margin-top:12px; }
+  .btn-dark:hover { opacity:0.85; }
+  .btn-green { background:var(--green);color:#fff;margin-top:4px; }
+  .btn-green:hover { opacity:0.88; }
+  .btn-sm { width:auto;padding:6px 12px;font-size:12px;border:1px solid var(--border);background:var(--surface);color:var(--text2);border-radius:var(--radius-sm);cursor:pointer; }
+  .btn-sm:hover { background:var(--surface2); }
+
+  /* Fields */
+  .field { margin-bottom: 12px; }
+  .field label { display:block;font-size:12px;font-weight:500;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.04em; }
+  .field input, .field select { width:100%;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);outline:none;transition:border-color 0.15s; }
+  .field input:focus, .field select:focus { border-color:var(--accent);background:#fff; }
+  .field select { appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6860' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;cursor:pointer; }
+  .fields-row { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+
+  #status { font-size:13px;text-align:center;padding:8px 0 0;min-height:24px; }
+
+  /* Log list */
+  #att-list { display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto; }
+  .att-row { display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--surface2);border-radius:var(--radius-sm);animation:fadeIn 0.2s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:none} }
+  .avatar { width:38px;height:38px;border-radius:50%;background:var(--accent-bg);color:var(--accent);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+  .att-info { flex:1;min-width:0; }
+  .att-name { font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+  .att-sub { font-size:12px;color:var(--text2);font-family:'DM Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+  .att-loc { font-size:11px;color:var(--text3); }
+  .att-right { text-align:right;flex-shrink:0; }
+  .att-time { font-size:11px;color:var(--text3);font-family:'DM Mono',monospace; }
+  .att-sync { font-size:13px; }
+  .empty { text-align:center;color:var(--text3);font-size:13px;padding:24px 0; }
+  .count-pill { background:var(--accent-bg);color:var(--accent);font-size:12px;font-weight:600;padding:2px 10px;border-radius:99px; }
+
+  .sheet-link { display:flex;align-items:center;gap:6px;font-size:12px;color:var(--accent);text-decoration:none; }
+  .sheet-link:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/>
+      <path d="M14 14h2v2h-2zM18 14h3M14 18v3M18 18h3v3h-3z"/>
+    </svg>
+  </div>
+  <h1>Attendance Scanner</h1>
+  <div class="sync-pill">
+    <div class="sync-dot" id="sync-dot"></div>
+    <span id="sync-label">Not connected</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- Step 1: Connect Apps Script URL -->
+  <div id="setup-card">
+    <h3>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Connect to Google Sheets
+    </h3>
+    <p id="setup-msg">Your sheet is ready at the link below. Paste your Apps Script Web App URL to activate auto-sync.</p>
+    <div class="url-row">
+      <input type="text" id="script-url" placeholder="https://script.google.com/macros/s/.../exec" />
+      <button onclick="saveUrl()">Connect</button>
+    </div>
+    <div style="margin-top:10px">
+      <a class="sheet-link" href="https://docs.google.com/spreadsheets/d/113KIEqWC3NyGhiVz99Dg4lREqvcrVBTYuRktw5y6KGo/edit" target="_blank">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Open your Google Sheet
+      </a>
+    </div>
+  </div>
+
+  <!-- Scanner -->
+  <div class="card">
+    <div class="card-header">
+      <h2>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
+        Scan Member's WhatsApp QR
+      </h2>
+    </div>
+    <div class="card-body">
+      <div id="scanner-wrap">
+        <div class="scan-placeholder" id="placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <p style="color:#555">Camera will appear here<br/>after tapping Start</p>
+        </div>
+        <video id="preview" autoplay muted playsinline></video>
+        <canvas id="qr-canvas"></canvas>
+        <div class="scan-overlay" id="overlay">
+          <div class="corner tl"></div><div class="corner tr"></div>
+          <div class="corner bl"></div><div class="corner br"></div>
+          <div class="scan-line"></div>
+        </div>
+      </div>
+      <div id="detect-banner">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span>WhatsApp QR detected — <strong id="detected-num"></strong></span>
+      </div>
+      <button class="btn btn-dark" id="start-btn" onclick="toggleScanner()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        Start Camera
+      </button>
+    </div>
+  </div>
+
+  <!-- Member Details -->
+  <div class="card">
+    <div class="card-header"><h2>Member Details</h2></div>
+    <div class="card-body">
+      <div class="field">
+        <label>Name</label>
+        <input type="text" id="inp-name" placeholder="Type member's name" autocomplete="off" />
+      </div>
+      <div class="fields-row">
+        <div class="field">
+          <label>Phone</label>
+          <input type="text" id="inp-phone" placeholder="+65 9xxx xxxx" readonly />
+        </div>
+        <div class="field">
+          <label>Session</label>
+          <input type="text" id="inp-event" placeholder="e.g. Mon Class" value="Attendance" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Location</label>
+        <select id="inp-location">
+          <option value="">— Select location —</option>
+          <option>面包物语练功场</option>
+          <option>碧山Active Park练功场</option>
+          <option>植物园 练功场</option>
+          <option>碧山-宏茂桥公园</option>
+          <option>淡滨尼东民众俱乐部</option>
+          <option>蔡厝港公园</option>
+          <option>107A Aljunied Crescent</option>
+          <option>金文泰体育馆 Clementi Sports Hall</option>
+        </select>
+      </div>
+      <button class="btn btn-green" onclick="logAttendance()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Confirm &amp; Log Attendance
+      </button>
+      <div id="status"></div>
+    </div>
+  </div>
+
+  <!-- Attendance Log -->
+  <div class="card">
+    <div class="card-header">
+      <h2>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        Today's Log
+      </h2>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="count-pill" id="count">0 present</span>
+        <button class="btn-sm" onclick="exportCSV()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:3px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+      </div>
+    </div>
+    <div class="card-body" style="padding:12px 16px">
+      <div id="att-list"><div class="empty">No attendance yet — scan a QR to begin</div></div>
+    </div>
+  </div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+<script>
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/113KIEqWC3NyGhiVz99Dg4lREqvcrVBTYuRktw5y6KGo/edit";
+const STORAGE_KEY = "att_script_url_v2";
+let camStream=null, scanLoop=null, scanning=false, records=[];
+
+// On load — restore saved script URL
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    document.getElementById('script-url').value = saved;
+    setConnected();
+  }
+  document.getElementById('today-date') && (document.getElementById('today-date').textContent =
+    new Date().toLocaleDateString('en-SG', {weekday:'short', day:'numeric', month:'short'}));
+});
+
+function saveUrl() {
+  const url = document.getElementById('script-url').value.trim();
+  if (!url || !url.includes('script.google.com')) {
+    setSyncState('error', 'Invalid URL');
+    return;
+  }
+  localStorage.setItem(STORAGE_KEY, url);
+  setConnected();
+}
+
+function setConnected() {
+  setSyncState('connected', 'Sheets connected');
+  const card = document.getElementById('setup-card');
+  card.className = 'connected';
+  document.getElementById('setup-msg').textContent = '✅ Syncing to your Google Sheet automatically on every check-in.';
+}
+
+function setSyncState(state, label) {
+  document.getElementById('sync-dot').className = 'sync-dot' + (state ? ' ' + state : '');
+  document.getElementById('sync-label').textContent = label;
+}
+
+async function syncToSheets(record) {
+  const url = localStorage.getItem(STORAGE_KEY);
+  if (!url) return false;
+  setSyncState('syncing', 'Syncing...');
+  try {
+    await fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(record)
+    });
+    setSyncState('connected', 'Synced ✓');
+    return true;
+  } catch(err) {
+    setSyncState('error', 'Sync failed');
+    return false;
+  }
+}
+
+function toggleScanner() { scanning ? stopCam() : startCam(); }
+
+function startCam() {
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false })
+    .then(s => {
+      camStream = s; scanning = true;
+      const v = document.getElementById('preview');
+      v.srcObject = s; v.style.display = 'block';
+      document.getElementById('placeholder').style.display = 'none';
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById('start-btn').innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        Stop Camera`;
+      scanLoop = setInterval(doScan, 350);
+    })
+    .catch(() => setStatus('Camera access denied. Please allow camera permission.', 'red'));
+}
+
+function stopCam() {
+  scanning = false;
+  if (camStream) { camStream.getTracks().forEach(t => t.stop()); camStream = null; }
+  if (scanLoop) { clearInterval(scanLoop); scanLoop = null; }
+  const v = document.getElementById('preview');
+  v.style.display = 'none'; v.srcObject = null;
+  document.getElementById('placeholder').style.display = 'flex';
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('start-btn').innerHTML = `
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+    Start Camera`;
+}
+
+function doScan() {
+  const v = document.getElementById('preview'), c = document.getElementById('qr-canvas');
+  if (v.readyState !== v.HAVE_ENOUGH_DATA) return;
+  c.width = v.videoWidth; c.height = v.videoHeight;
+  const ctx = c.getContext('2d');
+  ctx.drawImage(v, 0, 0, c.width, c.height);
+  const code = jsQR(ctx.getImageData(0, 0, c.width, c.height).data, c.width, c.height);
+  if (!code) return;
+  const m = code.data.match(/wa\.me\/(\d+)/);
+  if (m) {
+    const phone = '+' + m[1];
+    document.getElementById('inp-phone').value = phone;
+    document.getElementById('detected-num').textContent = phone;
+    document.getElementById('detect-banner').style.display = 'flex';
+    setStatus('✅ Phone captured! Enter name and confirm.', 'green');
+    stopCam();
+    document.getElementById('inp-name').focus();
+  } else {
+    setStatus('Not a WhatsApp QR. Ask member to open WhatsApp → Settings → QR icon.', 'red');
+  }
+}
+
+async function logAttendance() {
+  const name     = document.getElementById('inp-name').value.trim();
+  const phone    = document.getElementById('inp-phone').value.trim();
+  const session  = document.getElementById('inp-event').value.trim() || 'Attendance';
+  const location = document.getElementById('inp-location').value;
+  if (!name)     { setStatus('Please enter the member\'s name.', 'red'); return; }
+  if (!phone)    { setStatus('Scan the WhatsApp QR first.', 'red'); return; }
+  if (!location) { setStatus('Please select a location.', 'red'); return; }
+  const now = new Date();
+  const time = now.toLocaleTimeString('en-SG', { hour:'2-digit', minute:'2-digit' });
+  const date = now.toLocaleDateString('en-SG');
+  const record = { name, phone, session, location, time, date, synced: false };
+  records.push(record);
+  renderList();
+  document.getElementById('inp-name').value = '';
+  document.getElementById('inp-phone').value = '';
+  document.getElementById('inp-location').selectedIndex = 0;
+  document.getElementById('detect-banner').style.display = 'none';
+  setStatus('Logged ' + name + ' — syncing to Sheets...', 'green');
+  const ok = await syncToSheets(record);
+  record.synced = ok;
+  renderList();
+  setStatus(
+    ok ? '✅ ' + name + ' synced to Google Sheets!' : '✅ ' + name + ' saved locally. Check your script URL.',
+    ok ? 'green' : 'red'
+  );
+  setTimeout(() => setStatus('', ''), 4500);
+}
+
+function renderList() {
+  const el = document.getElementById('att-list');
+  document.getElementById('count').textContent = records.length + ' present';
+  if (!records.length) { el.innerHTML = '<div class="empty">No attendance yet — scan a QR to begin</div>'; return; }
+  el.innerHTML = records.slice().reverse().map(r => {
+    const ini = r.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+    const icon = r.synced ? '🟢' : '🔴';
+    return `<div class="att-row">
+      <div class="avatar">${ini}</div>
+      <div class="att-info">
+        <div class="att-name">${r.name} <span class="att-sync">${icon}</span></div>
+        <div class="att-sub">${r.phone} · ${r.session}</div>
+        <div class="att-loc">${r.location}</div>
+      </div>
+      <div class="att-right"><div class="att-time">${r.time}</div></div>
+    </div>`;
+  }).join('');
+}
+
+function exportCSV() {
+  if (!records.length) { setStatus('Nothing to export yet.', 'red'); return; }
+  const rows = [
+    ['Name','Phone','Session','Location','Date','Time','Synced to Sheets'],
+    ...records.map(r => [r.name, r.phone, r.session, r.location, r.date, r.time, r.synced ? 'Yes' : 'No'])
+  ];
+  const csv = rows.map(r => r.map(v => '"' + v + '"').join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = 'attendance_' + new Date().toLocaleDateString('en-SG').replace(/\//g, '-') + '.csv';
+  a.click();
+}
+
+function setStatus(msg, color) {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.style.color = color === 'green' ? 'var(--green)' : color === 'red' ? 'var(--red)' : 'var(--text2)';
+}
+</script>
+</body>
+</html>
