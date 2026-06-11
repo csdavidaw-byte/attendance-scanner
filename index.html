@@ -13,41 +13,39 @@
   --green:#1a7a4a;--green-bg:#e8f5ee;--green-border:#a7d7bb;
   --red:#c0392b;--red-bg:#fdecea;
   --accent:#2563eb;--accent-bg:#eff4ff;
-  --amber:#92400e;--amber-bg:#fffbeb;
   --radius:12px;--radius-sm:8px;
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
-header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:20}
-.logo{width:34px;height:34px;background:var(--text);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.logo svg{width:18px;height:18px}
-header h1{font-size:15px;font-weight:600}
-.sync-pill{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);background:var(--surface2);border:1px solid var(--border);padding:4px 10px;border-radius:99px;white-space:nowrap}
+/* Header */
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;gap:0;position:sticky;top:0;z-index:20;height:52px}
+.logo{width:30px;height:30px;background:var(--text);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:10px}
+.logo svg{width:16px;height:16px}
+header h1{font-size:15px;font-weight:600;margin-right:auto}
+.sync-pill{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);background:var(--surface2);border:1px solid var(--border);padding:4px 10px;border-radius:99px;white-space:nowrap}
 .dot{width:7px;height:7px;border-radius:50%;background:#d1d5db;flex-shrink:0;transition:background 0.3s}
 .dot.on{background:#16a34a}
 .dot.busy{background:#f59e0b;animation:blink 1s infinite}
 .dot.err{background:var(--red)}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
 
+/* Nav tabs */
+.nav{display:flex;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:52px;z-index:19}
+.nav-tab{flex:1;padding:11px 8px;text-align:center;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
 main{max-width:480px;margin:0 auto;padding:16px 14px 60px;display:flex;flex-direction:column;gap:14px}
 
+/* Connected banner */
+.connected-banner{background:var(--green-bg);border:1px solid var(--green-border);border-radius:var(--radius);padding:12px 16px;display:flex;align-items:center;gap:10px}
+.connected-banner p{font-size:13px;color:var(--green);line-height:1.5}
+.connected-banner a{color:var(--green);font-weight:600;text-decoration:underline}
+
+/* Cards */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
 .card-head{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .card-head h2{font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px}
 .card-body{padding:16px}
-
-/* Setup */
-.setup-inner{font-size:13px;color:var(--text2);margin-bottom:10px;line-height:1.5}
-.url-row{display:flex;gap:8px}
-.url-row input{flex:1;min-width:0;padding:9px 10px;font-size:12px;font-family:'DM Mono',monospace;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);outline:none}
-.url-row input:focus{border-color:var(--accent);background:#fff}
-.url-row button{padding:9px 16px;font-size:13px;font-weight:600;background:var(--text);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;white-space:nowrap}
-.url-row button:hover{opacity:0.85}
-.test-btn{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:12px;color:var(--accent);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0}
-.test-btn:hover{text-decoration:underline}
-.sheet-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--accent);text-decoration:none;margin-left:12px}
-.sheet-link:hover{text-decoration:underline}
-#url-msg{font-size:12px;margin-top:8px;padding:8px 10px;border-radius:var(--radius-sm);display:none;line-height:1.5}
 
 /* Fields */
 .field{margin-bottom:12px}
@@ -56,39 +54,43 @@ main{max-width:480px;margin:0 auto;padding:16px 14px 60px;display:flex;flex-dire
 .field input,.field select{width:100%;padding:11px 12px;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);outline:none;transition:border-color 0.15s,background 0.15s}
 .field input:focus,.field select:focus{border-color:var(--accent);background:#fff}
 .field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6860' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;cursor:pointer}
-.fields-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .phone-wrap{position:relative}
 .phone-prefix{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--text2);pointer-events:none;font-family:'DM Mono',monospace}
 .phone-wrap input{padding-left:46px}
 
 /* Autocomplete */
 .suggest-wrap{position:relative}
-#suggestions{position:absolute;top:calc(100% + 2px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:0 6px 20px rgba(0,0,0,0.12);z-index:100;max-height:200px;overflow-y:auto;display:none}
+#suggestions{position:absolute;top:calc(100% + 2px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:0 6px 20px rgba(0,0,0,0.12);z-index:100;max-height:220px;overflow-y:auto;display:none}
 .s-item{padding:10px 12px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
 .s-item:last-child{border-bottom:none}
 .s-item:hover,.s-item.hi{background:var(--accent-bg)}
-.s-av{width:30px;height:30px;border-radius:50%;background:var(--accent-bg);color:var(--accent);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.s-name{font-size:13px;font-weight:500;color:var(--text)}
-.s-phone{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+.s-av{width:32px;height:32px;border-radius:50%;background:var(--accent-bg);color:var(--accent);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.s-info .s-name{font-size:13px;font-weight:500;color:var(--text)}
+.s-info .s-sub{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
 
 /* Buttons */
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;border-radius:var(--radius-sm);cursor:pointer;border:none;transition:opacity 0.15s,transform 0.1s;margin-top:4px}
 .btn:active{transform:scale(0.98)}
+.btn:disabled{opacity:0.6;cursor:not-allowed}
 .btn-green{background:var(--green);color:#fff}
-.btn-green:hover{opacity:0.88}
-.btn-sm{width:auto;padding:6px 12px;font-size:12px;font-weight:500;border:1px solid var(--border);background:var(--surface);color:var(--text2);border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;gap:4px;font-family:'DM Sans',sans-serif}
+.btn-green:hover:not(:disabled){opacity:0.88}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-accent:hover:not(:disabled){opacity:0.88}
+.btn-sm{width:auto;padding:6px 12px;font-size:12px;font-weight:500;border:1px solid var(--border);background:var(--surface);color:var(--text2);border-radius:var(--radius-sm);cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-family:'DM Sans',sans-serif}
 .btn-sm:hover{background:var(--surface2)}
+.btn-sm.danger{color:var(--red);border-color:#fca5a5}
+.btn-sm.danger:hover{background:var(--red-bg)}
 
 /* Flash */
 .flash{border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;display:none;margin-top:10px;text-align:center;line-height:1.6}
 .flash.ok{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green)}
 .flash.fail{background:var(--red-bg);border:1px solid #fca5a5;color:var(--red)}
 
-/* Log */
+/* Today's log list */
 #att-list{display:flex;flex-direction:column;gap:8px;max-height:360px;overflow-y:auto}
 .att-row{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--surface2);border-radius:var(--radius-sm);animation:pop 0.2s ease}
 @keyframes pop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
-.av{width:38px;height:38px;border-radius:50%;background:var(--accent-bg);color:var(--accent);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.av{width:36px;height:36px;border-radius:50%;background:var(--accent-bg);color:var(--accent);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .att-info{flex:1;min-width:0}
 .att-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .att-sub{font-size:12px;color:var(--text2);font-family:'DM Mono',monospace}
@@ -96,9 +98,22 @@ main{max-width:480px;margin:0 auto;padding:16px 14px 60px;display:flex;flex-dire
 .att-time{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;flex-shrink:0;text-align:right}
 .empty{text-align:center;color:var(--text3);font-size:13px;padding:28px 0}
 .count-pill{background:var(--accent-bg);color:var(--accent);font-size:12px;font-weight:700;padding:2px 10px;border-radius:99px}
+
+/* Members list */
+#member-list{display:flex;flex-direction:column;gap:8px;max-height:420px;overflow-y:auto}
+.member-row{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--surface2);border-radius:var(--radius-sm)}
+.member-info{flex:1;min-width:0}
+.member-name{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.member-sub{font-size:12px;color:var(--text2);font-family:'DM Mono',monospace}
+.member-actions{display:flex;gap:6px;flex-shrink:0}
+
+/* Add member form */
+#add-member-form{background:var(--surface2);border-radius:var(--radius-sm);padding:14px;margin-bottom:14px;display:none}
+#add-member-form .fields-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 </style>
 </head>
 <body>
+
 <header>
   <div class="logo">
     <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -109,53 +124,46 @@ main{max-width:480px;margin:0 auto;padding:16px 14px 60px;display:flex;flex-dire
   </div>
   <h1>Attendance</h1>
   <div class="sync-pill">
-    <div class="dot" id="sync-dot"></div>
-    <span id="sync-label">Not connected</span>
+    <div class="dot on" id="sync-dot"></div>
+    <span id="sync-label">Sheets connected</span>
   </div>
 </header>
 
-<main>
+<!-- Nav -->
+<div class="nav">
+  <button class="nav-tab active" onclick="showPage('log')">📋 Log Attendance</button>
+  <button class="nav-tab" onclick="showPage('members')">👥 Members</button>
+</div>
 
-  <!-- Google Sheets Setup -->
-  <div class="card">
-    <div class="card-head">
-      <h2>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        Google Sheets Sync
-      </h2>
-      <a class="sheet-link" href="https://docs.google.com/spreadsheets/d/113KIEqWC3NyGhiVz99Dg4lREqvcrVBTYuRktw5y6KGo/edit?gid=246908960#gid=246908960" target="_blank">Open Sheet ↗</a>
-    </div>
-    <div class="card-body">
-      <p class="setup-inner">Paste your Apps Script Web App URL then tap <strong>Connect</strong>. Tap <strong>Test</strong> to verify it works.</p>
-      <div class="url-row">
-        <input type="url" id="script-url" placeholder="https://script.google.com/macros/s/.../exec"/>
-        <button onclick="saveUrl()">Connect</button>
-      </div>
-      <div style="display:flex;align-items:center;gap:4px;margin-top:8px">
-        <button class="test-btn" onclick="testConnection()">🔗 Test connection</button>
-      </div>
-      <div id="url-msg"></div>
-    </div>
+<!-- ═══════════════ PAGE: LOG ═══════════════ -->
+<main id="page-log">
+
+  <div class="connected-banner">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a7a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    <p>✅ Syncing to your Google Sheet automatically on every check-in. <a href="https://docs.google.com/spreadsheets/d/113KIEqWC3NyGhiVz99Dg4lREqvcrVBTYuRktw5y6KGo/edit?gid=246908960#gid=246908960" target="_blank">Open Sheet ↗</a></p>
   </div>
 
-  <!-- Log Attendance -->
   <div class="card">
     <div class="card-head">
       <h2>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
         Log Attendance
       </h2>
     </div>
     <div class="card-body">
+
+      <!-- Name with autocomplete -->
       <div class="field suggest-wrap">
-        <label>Member Name</label>
-        <input type="text" id="inp-name" placeholder="Type name…" autocomplete="off"
+        <label>Name</label>
+        <input type="text" id="inp-name" placeholder="Type name to search…" autocomplete="off"
           oninput="onNameInput(this.value)" onkeydown="onNameKey(event)"/>
         <div id="suggestions"></div>
       </div>
-      <div class="fields-2">
+
+      <!-- Phone & Email -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
         <div class="field">
-          <label>Phone Number</label>
+          <label>Handphone Number</label>
           <div class="phone-wrap">
             <span class="phone-prefix">+65</span>
             <input type="tel" id="inp-phone" placeholder="9xxx xxxx"
@@ -163,10 +171,12 @@ main{max-width:480px;margin:0 auto;padding:16px 14px 60px;display:flex;flex-dire
           </div>
         </div>
         <div class="field">
-          <label>Session</label>
-          <input type="text" id="inp-event" placeholder="e.g. Mon Class" value="Attendance"/>
+          <label>Email <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
+          <input type="email" id="inp-email" placeholder="email@example.com"/>
         </div>
       </div>
+
+      <!-- Location -->
       <div class="field">
         <label>Location</label>
         <select id="inp-location">
@@ -181,6 +191,7 @@ main{max-width:480px;margin:0 auto;padding:16px 14px 60px;display:flex;flex-dire
           <option>金文泰体育馆 Clementi Sports Hall</option>
         </select>
       </div>
+
       <button class="btn btn-green" onclick="logAttendance()" id="log-btn">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         Confirm &amp; Log Attendance
@@ -189,19 +200,13 @@ main{max-width:480px;margin:0 auto;padding:16px 14px 60px;display:flex;flex-dire
     </div>
   </div>
 
-  <!-- Today's Log -->
+  <!-- Today's log -->
   <div class="card">
     <div class="card-head">
-      <h2>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-        Today's Log
-      </h2>
+      <h2>Today's Log</h2>
       <div style="display:flex;gap:8px;align-items:center">
         <span class="count-pill" id="count">0</span>
-        <button class="btn-sm" onclick="exportCSV()">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Export CSV
-        </button>
+        <button class="btn-sm" onclick="exportCSV()">⬇️ CSV</button>
       </div>
     </div>
     <div class="card-body" style="padding:10px 14px">
@@ -210,126 +215,240 @@ main{max-width:480px;margin:0 auto;padding:16px 14px 60px;display:flex;flex-dire
   </div>
 
 </main>
+
+<!-- ═══════════════ PAGE: MEMBERS ═══════════════ -->
+<main id="page-members" style="display:none">
+
+  <div class="card">
+    <div class="card-head">
+      <h2>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Members <span id="member-count" style="font-size:12px;color:var(--text3);font-weight:400;margin-left:4px"></span>
+      </h2>
+      <button class="btn-sm" onclick="toggleAddForm()" id="add-btn">+ Add Member</button>
+    </div>
+    <div class="card-body">
+
+      <!-- Add / Edit form -->
+      <div id="add-member-form">
+        <div class="fields-row">
+          <div class="field" style="margin-bottom:0">
+            <label>Name</label>
+            <input type="text" id="m-name" placeholder="Full name"/>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label>Handphone</label>
+            <div class="phone-wrap">
+              <span class="phone-prefix">+65</span>
+              <input type="tel" id="m-phone" placeholder="9xxx xxxx"
+                oninput="this.value=this.value.replace(/[^\d]/g,'').slice(0,8)"/>
+            </div>
+          </div>
+        </div>
+        <div class="field" style="margin-top:10px;margin-bottom:10px">
+          <label>Email <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
+          <input type="email" id="m-email" placeholder="email@example.com"/>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-accent" style="margin-top:0;flex:1;padding:10px" onclick="saveMemberForm()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span id="save-btn-label">Save Member</span>
+          </button>
+          <button class="btn-sm" style="padding:10px 16px" onclick="cancelForm()">Cancel</button>
+        </div>
+        <input type="hidden" id="edit-key"/>
+      </div>
+
+      <!-- Search -->
+      <div class="field" style="margin-bottom:12px">
+        <input type="text" id="member-search" placeholder="Search members…" oninput="renderMembers(this.value)"/>
+      </div>
+
+      <div id="member-list"><div class="empty">No members yet — tap Add Member to start</div></div>
+    </div>
+  </div>
+
+</main>
+
 <script>
 // ── Config ────────────────────────────────────────────────────
-const SCRIPT_KEY  = 'att_script_v5';
-const MEMBERS_KEY = 'att_members_v5';
+const SCRIPT_URL  = 'https://script.google.com/macros/s/AKfycbz2Ay8bJFcDyoDKqS5R8B_lWS4R9fN_GwkazJd3-ggRtQURSLRXvQQjD-RHTO-H7GgLjQ/exec';
 const SHEET_URL   = 'https://docs.google.com/spreadsheets/d/113KIEqWC3NyGhiVz99Dg4lREqvcrVBTYuRktw5y6KGo/edit?gid=246908960#gid=246908960';
+const MEMBERS_KEY = 'att_members_v6';
+
 let records = [], members = {}, sugIdx = -1;
 
 // ── Init ──────────────────────────────────────────────────────
 window.addEventListener('load', () => {
-  const url = localStorage.getItem(SCRIPT_KEY);
-  if (url) {
-    document.getElementById('script-url').value = url;
-    setDot('on', 'Connected');
-  }
   try { members = JSON.parse(localStorage.getItem(MEMBERS_KEY) || '{}'); } catch(e) { members = {}; }
+  renderMembers();
+  updateMemberCount();
 });
 
-// ── Sheets URL ────────────────────────────────────────────────
-function saveUrl() {
-  const url = document.getElementById('script-url').value.trim();
-  if (!url || !url.startsWith('https://script.google.com')) {
-    showMsg('❌ URL must start with https://script.google.com', 'var(--red)', 'var(--red-bg)');
-    return;
-  }
-  localStorage.setItem(SCRIPT_KEY, url);
-  setDot('on', 'Connected');
-  showMsg('✅ URL saved! Tap "Test connection" to verify it works.', 'var(--green)', 'var(--green-bg)');
+// ── Page navigation ───────────────────────────────────────────
+function showPage(p) {
+  document.getElementById('page-log').style.display     = p === 'log'     ? 'flex' : 'none';
+  document.getElementById('page-members').style.display = p === 'members' ? 'flex' : 'none';
+  document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', (p==='log'&&i===0)||(p==='members'&&i===1)));
+  if (p === 'members') renderMembers();
 }
 
-// Test by opening the URL directly — most reliable way
-function testConnection() {
-  const url = localStorage.getItem(SCRIPT_KEY);
-  if (!url) { showMsg('⚠️ No URL saved yet. Paste your script URL and tap Connect first.', 'var(--amber)', 'var(--amber-bg)'); return; }
-  showMsg('🔗 Opening script URL in a new tab — you should see {"status":"ok"} if it works…', 'var(--accent)', 'var(--accent-bg)');
-  window.open(url, '_blank');
-}
-
-function showMsg(text, color, bg) {
-  const el = document.getElementById('url-msg');
-  el.textContent = text;
-  el.style.color = color;
-  el.style.background = bg;
-  el.style.display = 'block';
-}
-
-function setDot(state, label) {
-  document.getElementById('sync-dot').className = 'dot ' + (state || '');
-  document.getElementById('sync-label').textContent = label;
-}
-
-// ── Sync — use script tag trick (works across origins) ────────
+// ── Sync via JSONP ────────────────────────────────────────────
 function syncToSheets(record) {
   return new Promise((resolve) => {
-    const url = localStorage.getItem(SCRIPT_KEY);
-    if (!url) { resolve(false); return; }
-
     setDot('busy', 'Syncing…');
-
+    // Only send the columns that exist in the sheet:
+    // Timestamp (server-side), Name, Email, Location, Handphone Number
     const params = new URLSearchParams({
       name:     record.name,
-      phone:    record.phone,
-      session:  record.session,
+      email:    record.email || '',
       location: record.location,
-      date:     record.date,
-      time:     record.time
+      phone:    record.phone
     });
-
-    // Script tag technique — bypasses CORS completely, works everywhere
+    const cbName = 'cb_' + Date.now();
     const script = document.createElement('script');
-    const cbName = 'gs_cb_' + Date.now();
-    const timer  = setTimeout(() => {
+    const timer  = setTimeout(() => { cleanup(); setDot('on', 'Sent ✓'); resolve(true); }, 8000);
+    window[cbName] = (data) => {
       cleanup();
-      // Timeout means the request was sent but we can't confirm response
-      // Apps Script is likely processing it — assume ok
-      setDot('on', 'Sent ✓');
-      resolve(true);
-    }, 8000);
-
-    window[cbName] = function(data) {
-      cleanup();
-      if (data && data.status === 'ok') {
-        setDot('on', 'Synced ✓');
-        resolve(true);
-      } else {
-        setDot('err', 'Error');
-        resolve(false);
-      }
+      setDot(data && data.status==='ok' ? 'on' : 'err', data && data.status==='ok' ? 'Synced ✓' : 'Error');
+      resolve(data && data.status === 'ok');
     };
-
     function cleanup() {
-      clearTimeout(timer);
-      delete window[cbName];
-      if (script.parentNode) script.parentNode.removeChild(script);
+      clearTimeout(timer); delete window[cbName];
+      try { script.parentNode && script.parentNode.removeChild(script); } catch(e) {}
     }
-
-    script.onerror = () => { cleanup(); setDot('err', 'Failed'); resolve(false); };
-    script.src = url + '?' + params.toString() + '&callback=' + cbName;
+    script.onerror = () => { cleanup(); setDot('err','Failed'); resolve(false); };
+    script.src = SCRIPT_URL + '?' + params.toString() + '&callback=' + cbName;
     document.head.appendChild(script);
   });
 }
 
-// ── Members memory ────────────────────────────────────────────
-function saveMember(name, phone) {
-  members[phone] = { name, phone };
-  localStorage.setItem(MEMBERS_KEY, JSON.stringify(members));
+function setDot(state, label) {
+  document.getElementById('sync-dot').className = 'dot ' + (state||'');
+  document.getElementById('sync-label').textContent = label;
 }
 
-// ── Autocomplete ──────────────────────────────────────────────
+// ── Members storage ───────────────────────────────────────────
+function saveMembers() {
+  localStorage.setItem(MEMBERS_KEY, JSON.stringify(members));
+  updateMemberCount();
+}
+
+function updateMemberCount() {
+  const n = Object.keys(members).length;
+  document.getElementById('member-count').textContent = n ? '(' + n + ')' : '';
+}
+
+// ── Add / Edit member form ────────────────────────────────────
+function toggleAddForm() {
+  const form = document.getElementById('add-member-form');
+  const open = form.style.display === 'block';
+  form.style.display = open ? 'none' : 'block';
+  document.getElementById('add-btn').textContent = open ? '+ Add Member' : '✕ Cancel';
+  if (!open) { clearForm(); document.getElementById('m-name').focus(); }
+}
+
+function cancelForm() {
+  document.getElementById('add-member-form').style.display = 'none';
+  document.getElementById('add-btn').textContent = '+ Add Member';
+  clearForm();
+}
+
+function clearForm() {
+  document.getElementById('m-name').value  = '';
+  document.getElementById('m-phone').value = '';
+  document.getElementById('m-email').value = '';
+  document.getElementById('edit-key').value = '';
+  document.getElementById('save-btn-label').textContent = 'Save Member';
+}
+
+function saveMemberForm() {
+  const name  = document.getElementById('m-name').value.trim();
+  const raw   = document.getElementById('m-phone').value.replace(/[^\d]/g,'');
+  const phone = raw ? '+65' + raw : '';
+  const email = document.getElementById('m-email').value.trim();
+  const editKey = document.getElementById('edit-key').value;
+
+  if (!name)  { alert('Please enter a name.'); return; }
+  if (!phone) { alert('Please enter a phone number.'); return; }
+
+  // If editing, remove old key first
+  if (editKey && editKey !== phone) delete members[editKey];
+
+  members[phone] = { name, phone, email };
+  saveMembers();
+  renderMembers();
+  cancelForm();
+}
+
+function editMember(phone) {
+  const m = members[phone];
+  if (!m) return;
+  document.getElementById('add-member-form').style.display = 'block';
+  document.getElementById('add-btn').textContent = '✕ Cancel';
+  document.getElementById('m-name').value  = m.name;
+  document.getElementById('m-phone').value = m.phone.replace(/^\+65/,'');
+  document.getElementById('m-email').value = m.email || '';
+  document.getElementById('edit-key').value = phone;
+  document.getElementById('save-btn-label').textContent = 'Update Member';
+  document.getElementById('m-name').focus();
+  document.getElementById('add-member-form').scrollIntoView({behavior:'smooth'});
+}
+
+function deleteMember(phone) {
+  const m = members[phone];
+  if (!m) return;
+  if (!confirm('Remove ' + m.name + ' from members?')) return;
+  delete members[phone];
+  saveMembers();
+  renderMembers();
+}
+
+// ── Render members list ───────────────────────────────────────
+function renderMembers(query) {
+  const el = document.getElementById('member-list');
+  let list = Object.values(members);
+  if (query && query.trim()) {
+    const q = query.toLowerCase();
+    list = list.filter(m => m.name.toLowerCase().includes(q) || (m.phone||'').includes(q) || (m.email||'').toLowerCase().includes(q));
+  }
+  list.sort((a,b) => a.name.localeCompare(b.name));
+  if (!list.length) {
+    el.innerHTML = '<div class="empty">' + (query ? 'No members match "'+query+'"' : 'No members yet — tap Add Member to start') + '</div>';
+    return;
+  }
+  el.innerHTML = list.map(m => {
+    const ini = m.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    return `<div class="member-row">
+      <div class="av">${ini}</div>
+      <div class="member-info">
+        <div class="member-name">${m.name}</div>
+        <div class="member-sub">${m.phone}${m.email ? ' · '+m.email : ''}</div>
+      </div>
+      <div class="member-actions">
+        <button class="btn-sm" onclick="editMember('${m.phone}')">✏️ Edit</button>
+        <button class="btn-sm danger" onclick="deleteMember('${m.phone}')">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Autocomplete on log page ──────────────────────────────────
 function onNameInput(val) {
   sugIdx = -1;
   const box = document.getElementById('suggestions');
-  if (!val || val.length < 1) { box.style.display = 'none'; return; }
+  if (!val || val.length < 1) { box.style.display='none'; return; }
   const q = val.toLowerCase();
   const hits = Object.values(members).filter(m => m.name.toLowerCase().includes(q)).slice(0, 6);
-  if (!hits.length) { box.style.display = 'none'; return; }
-  box.innerHTML = hits.map((m, i) => {
-    const ini = m.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-    return `<div class="s-item" id="si${i}" onmousedown="pickMember('${m.name.replace(/'/g,"\\'")}','${m.phone}')">
+  if (!hits.length) { box.style.display='none'; return; }
+  box.innerHTML = hits.map((m,i) => {
+    const ini = m.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    return `<div class="s-item" id="si${i}" onmousedown="pickMember('${m.phone}')">
       <div class="s-av">${ini}</div>
-      <div><div class="s-name">${m.name}</div><div class="s-phone">${m.phone}</div></div>
+      <div class="s-info">
+        <div class="s-name">${m.name}</div>
+        <div class="s-sub">${m.phone}${m.email?' · '+m.email:''}</div>
+      </div>
     </div>`;
   }).join('');
   box.style.display = 'block';
@@ -338,87 +457,92 @@ function onNameInput(val) {
 function onNameKey(e) {
   const items = document.querySelectorAll('#suggestions .s-item');
   if (!items.length) return;
-  if (e.key === 'ArrowDown') { sugIdx = Math.min(sugIdx+1, items.length-1); items.forEach((el,i)=>el.classList.toggle('hi',i===sugIdx)); e.preventDefault(); }
-  else if (e.key === 'ArrowUp') { sugIdx = Math.max(sugIdx-1, 0); items.forEach((el,i)=>el.classList.toggle('hi',i===sugIdx)); e.preventDefault(); }
-  else if (e.key === 'Enter' && sugIdx >= 0) { items[sugIdx].dispatchEvent(new MouseEvent('mousedown')); e.preventDefault(); }
-  else if (e.key === 'Escape') { document.getElementById('suggestions').style.display='none'; }
+  if (e.key==='ArrowDown') { sugIdx=Math.min(sugIdx+1,items.length-1); items.forEach((el,i)=>el.classList.toggle('hi',i===sugIdx)); e.preventDefault(); }
+  else if (e.key==='ArrowUp') { sugIdx=Math.max(sugIdx-1,0); items.forEach((el,i)=>el.classList.toggle('hi',i===sugIdx)); e.preventDefault(); }
+  else if (e.key==='Enter'&&sugIdx>=0) { items[sugIdx].dispatchEvent(new MouseEvent('mousedown')); e.preventDefault(); }
+  else if (e.key==='Escape') { document.getElementById('suggestions').style.display='none'; }
 }
 
-function pickMember(name, phone) {
-  document.getElementById('inp-name').value = name;
-  document.getElementById('inp-phone').value = phone.replace(/^\+65/, '');
+function pickMember(phone) {
+  const m = members[phone];
+  if (!m) return;
+  document.getElementById('inp-name').value  = m.name;
+  document.getElementById('inp-phone').value = m.phone.replace(/^\+65/,'');
+  document.getElementById('inp-email').value = m.email || '';
   document.getElementById('suggestions').style.display = 'none';
   document.getElementById('inp-location').focus();
 }
 
 document.addEventListener('click', e => {
-  if (!e.target.closest('.suggest-wrap')) document.getElementById('suggestions').style.display = 'none';
+  if (!e.target.closest('.suggest-wrap')) document.getElementById('suggestions').style.display='none';
 });
 
-// ── Log Attendance ────────────────────────────────────────────
+// ── Log attendance ────────────────────────────────────────────
 async function logAttendance() {
   const name     = document.getElementById('inp-name').value.trim();
-  const rawPhone = document.getElementById('inp-phone').value.replace(/[^\d]/g, '');
-  const phone    = rawPhone ? '+65' + rawPhone : '';
-  const session  = document.getElementById('inp-event').value.trim() || 'Attendance';
+  const rawPhone = document.getElementById('inp-phone').value.replace(/[^\d]/g,'');
+  const phone    = rawPhone ? '+65'+rawPhone : '';
+  const email    = document.getElementById('inp-email').value.trim();
   const location = document.getElementById('inp-location').value;
 
   if (!name)     { showFlash('⚠️ Please enter the member\'s name.', false); return; }
-  if (!phone)    { showFlash('⚠️ Please enter the phone number.', false); return; }
+  if (!phone)    { showFlash('⚠️ Please enter the handphone number.', false); return; }
   if (!location) { showFlash('⚠️ Please select a location.', false); return; }
 
-  saveMember(name, phone);
+  // Auto-save to members if not already there
+  if (!members[phone]) {
+    members[phone] = { name, phone, email };
+    saveMembers();
+  }
 
   const now  = new Date();
-  const time = now.toLocaleTimeString('en-SG', {hour:'2-digit', minute:'2-digit'});
+  const time = now.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
   const date = now.toLocaleDateString('en-SG');
-  const record = { name, phone, session, location, time, date, synced: false };
+  const record = { name, phone, email, location, time, date, synced: false };
 
   records.push(record);
-  renderList();
+  renderLog();
 
-  // Keep name + phone, only reset location
+  // Keep name + phone + email, only reset location
   document.getElementById('inp-location').selectedIndex = 0;
-  document.getElementById('suggestions').style.display = 'none';
+  document.getElementById('suggestions').style.display  = 'none';
 
   const btn = document.getElementById('log-btn');
   btn.disabled = true;
-  btn.textContent = 'Syncing…';
+  btn.innerHTML = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Syncing…`;
 
   const ok = await syncToSheets(record);
   record.synced = ok;
-  renderList();
+  renderLog();
 
   btn.disabled = false;
   btn.innerHTML = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Confirm &amp; Log Attendance`;
 
-  if (ok) {
-    showFlash(`✅ <strong>${name}</strong> logged at ${time} — synced to <a href="${SHEET_URL}" target="_blank" style="color:var(--green);font-weight:600">Google Sheets ↗</a>`, true);
-  } else {
-    showFlash(`✅ <strong>${name}</strong> logged at ${time}. ⚠️ Sync failed — tap "Test connection" above to diagnose.`, false);
-  }
+  showFlash(
+    ok ? `✅ <strong>${name}</strong> logged at ${time} — <a href="${SHEET_URL}" target="_blank" style="color:var(--green);font-weight:600">View in Sheets ↗</a>`
+       : `✅ <strong>${name}</strong> saved locally. ⚠️ Sync failed — check Apps Script deployment.`,
+    ok
+  );
 }
 
 function showFlash(html, ok) {
   const el = document.getElementById('flash');
-  el.innerHTML = html;
-  el.className = 'flash ' + (ok ? 'ok' : 'fail');
-  el.style.display = 'block';
-  setTimeout(() => { el.style.display = 'none'; }, 6000);
+  el.innerHTML = html; el.className = 'flash '+(ok?'ok':'fail'); el.style.display='block';
+  setTimeout(()=>{ el.style.display='none'; }, 6000);
 }
 
-// ── Render ────────────────────────────────────────────────────
-function renderList() {
+// ── Render log ────────────────────────────────────────────────
+function renderLog() {
   const el = document.getElementById('att-list');
   document.getElementById('count').textContent = records.length;
-  if (!records.length) { el.innerHTML = '<div class="empty">No attendance yet</div>'; return; }
+  if (!records.length) { el.innerHTML='<div class="empty">No attendance yet</div>'; return; }
   el.innerHTML = records.slice().reverse().map(r => {
     const ini = r.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
     return `<div class="att-row">
       <div class="av">${ini}</div>
       <div class="att-info">
         <div class="att-name">${r.name} <span style="font-size:11px">${r.synced?'🟢':'🔴'}</span></div>
-        <div class="att-sub">${r.phone} · ${r.session}</div>
+        <div class="att-sub">${r.phone}${r.email?' · '+r.email:''}</div>
         <div class="att-loc">${r.location}</div>
       </div>
       <div class="att-time">${r.time}<br/>${r.date}</div>
@@ -429,7 +553,10 @@ function renderList() {
 // ── Export CSV ────────────────────────────────────────────────
 function exportCSV() {
   if (!records.length) { alert('No records yet.'); return; }
-  const rows = [['Name','Phone','Session','Location','Date','Time','Synced'],...records.map(r=>[r.name,r.phone,r.session,r.location,r.date,r.time,r.synced?'Yes':'No'])];
+  const rows = [
+    ['Timestamp','Name','Email','Location','Handphone Number','Synced'],
+    ...records.map(r => [r.date+' '+r.time, r.name, r.email||'', r.location, r.phone, r.synced?'Yes':'No'])
+  ];
   const csv = rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
