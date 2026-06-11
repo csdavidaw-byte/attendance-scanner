@@ -1,72 +1,65 @@
 // ============================================================
 //  Attendance Scanner — Google Apps Script
-//  Paste this entire file into your Apps Script editor
-//  in the spreadsheet: https://docs.google.com/spreadsheets/d/113KIEqWC3NyGhiVz99Dg4lREqvcrVBTYuRktw5y6KGo
+//  Sheet: https://docs.google.com/spreadsheets/d/113KIEqWC3NyGhiVz99Dg4lREqvcrVBTYuRktw5y6KGo
+//
+//  DEPLOY SETTINGS (very important):
+//  - Execute as: Me
+//  - Who has access: Anyone (even anonymous)
 // ============================================================
 
-// Your specific Google Sheet ID (already set)
 var SPREADSHEET_ID = "113KIEqWC3NyGhiVz99Dg4lREqvcrVBTYuRktw5y6KGo";
+var SHEET_GID      = 246908960;
+var SHEET_NAME     = "Attendance";
 
-// Name of the sheet tab to write attendance into
-var SHEET_NAME = "Attendance";
-
-// ============================================================
-//  DO NOT EDIT BELOW THIS LINE
-// ============================================================
-
-function doPost(e) {
-  try {
-    var sheet = getOrCreateSheet();
-    var data = JSON.parse(e.postData.contents);
-
-    // Add header row if sheet is empty
-    if (sheet.getLastRow() === 0) {
-      sheet.appendRow(["Name", "Phone", "Session", "Location", "Date", "Time", "Logged At"]);
-      var headerRange = sheet.getRange(1, 1, 1, 7);
-      headerRange.setFontWeight("bold");
-      headerRange.setBackground("#1a1916");
-      headerRange.setFontColor("#ffffff");
-      sheet.setFrozenRows(1);
-    }
-
-    // Append the attendance record
-    sheet.appendRow([
-      data.name     || "",
-      data.phone    || "",
-      data.session  || "",
-      data.location || "",
-      data.date     || "",
-      data.time     || "",
-      new Date().toLocaleString("en-SG")
-    ]);
-
-    // Auto-resize columns
-    sheet.autoResizeColumns(1, 7);
-
-    return ContentService
-      .createTextOutput(JSON.stringify({ status: "ok", message: "Logged: " + data.name }))
-      .setMimeType(ContentService.MimeType.JSON);
-
-  } catch (err) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ status: "error", message: err.toString() }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-}
-
-// Handles GET requests — open this URL in browser to test
 function doGet(e) {
+  var output;
+  try {
+    var p = e.parameter || {};
+
+    if (!p.name) {
+      // Test ping
+      output = { status: "ok", message: "Script is running! Sheet connected." };
+    } else {
+      var sheet = getTargetSheet();
+
+      if (sheet.getLastRow() === 0) {
+        sheet.appendRow(["Name","Phone","Session","Location","Date","Time","Logged At"]);
+        sheet.getRange(1,1,1,7).setFontWeight("bold").setBackground("#1a1916").setFontColor("#ffffff");
+        sheet.setFrozenRows(1);
+      }
+
+      sheet.appendRow([
+        p.name     || "",
+        p.phone    || "",
+        p.session  || "",
+        p.location || "",
+        p.date     || "",
+        p.time     || "",
+        new Date().toLocaleString("en-SG")
+      ]);
+      sheet.autoResizeColumns(1,7);
+      output = { status: "ok", message: "Logged: " + p.name };
+    }
+  } catch(err) {
+    output = { status: "error", message: err.toString() };
+  }
+
+  // Support JSONP callback for script-tag technique
+  var callback = (e.parameter || {}).callback;
+  var json = JSON.stringify(output);
+  var content = callback ? callback + "(" + json + ")" : json;
   return ContentService
-    .createTextOutput(JSON.stringify({ status: "ok", message: "Attendance Script is running! Sheet ID: " + SPREADSHEET_ID }))
-    .setMimeType(ContentService.MimeType.JSON);
+    .createTextOutput(content)
+    .setMimeType(callback ? ContentService.MimeType.JAVASCRIPT : ContentService.MimeType.JSON);
 }
 
-// Gets or creates the Attendance sheet tab in YOUR specific spreadsheet
-function getOrCreateSheet() {
+function getTargetSheet() {
   var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  var sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) {
-    sheet = ss.insertSheet(SHEET_NAME);
+  var sheets = ss.getSheets();
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].getSheetId() === SHEET_GID) return sheets[i];
   }
-  return sheet;
+  var byName = ss.getSheetByName(SHEET_NAME);
+  if (byName) return byName;
+  return ss.insertSheet(SHEET_NAME);
 }
