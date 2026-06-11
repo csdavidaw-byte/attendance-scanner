@@ -13,103 +13,87 @@
   --green:#1a7a4a;--green-bg:#e8f5ee;--green-border:#a7d7bb;
   --red:#c0392b;--red-bg:#fdecea;
   --accent:#2563eb;--accent-bg:#eff4ff;
-  --radius:12px;--radius-sm:8px;
+  --radius:14px;--radius-sm:9px;
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
-/* Header */
-header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;gap:0;position:sticky;top:0;z-index:20;height:52px}
-.logo{width:30px;height:30px;background:var(--text);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:10px}
-.logo svg{width:16px;height:16px}
-header h1{font-size:15px;font-weight:600;margin-right:auto}
-.sync-pill{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);background:var(--surface2);border:1px solid var(--border);padding:4px 10px;border-radius:99px;white-space:nowrap}
-.dot{width:7px;height:7px;border-radius:50%;background:#d1d5db;flex-shrink:0;transition:background 0.3s}
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;gap:10px;height:54px;position:sticky;top:0;z-index:10}
+.logo{width:32px;height:32px;background:var(--text);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo svg{width:17px;height:17px}
+header h1{font-size:16px;font-weight:600;margin-right:auto}
+.sync-pill{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);background:var(--surface2);border:1px solid var(--border);padding:3px 9px;border-radius:99px;white-space:nowrap}
+.dot{width:6px;height:6px;border-radius:50%;background:#d1d5db;flex-shrink:0}
 .dot.on{background:#16a34a}
 .dot.busy{background:#f59e0b;animation:blink 1s infinite}
 .dot.err{background:var(--red)}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
 
-/* Nav tabs */
-.nav{display:flex;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:52px;z-index:19}
-.nav-tab{flex:1;padding:11px 8px;text-align:center;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;font-family:'DM Sans',sans-serif;transition:all 0.15s}
-.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+main{max-width:440px;margin:0 auto;padding:20px 16px 60px;display:flex;flex-direction:column;gap:16px}
 
-main{max-width:480px;margin:0 auto;padding:16px 14px 60px;display:flex;flex-direction:column;gap:14px}
+/* Step indicator */
+.steps{display:flex;align-items:center;gap:0;margin-bottom:4px}
+.step{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)}
+.step.active{color:var(--accent);font-weight:600}
+.step.done{color:var(--green)}
+.step-num{width:22px;height:22px;border-radius:50%;background:var(--surface2);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.step.active .step-num{background:var(--accent);border-color:var(--accent);color:#fff}
+.step.done .step-num{background:var(--green);border-color:var(--green);color:#fff}
+.step-line{flex:1;height:1.5px;background:var(--border);margin:0 6px}
+.step-line.done{background:var(--green)}
 
-/* Connected banner */
-.connected-banner{background:var(--green-bg);border:1px solid var(--green-border);border-radius:var(--radius);padding:12px 16px;display:flex;align-items:center;gap:10px}
-.connected-banner p{font-size:13px;color:var(--green);line-height:1.5}
-.connected-banner a{color:var(--green);font-weight:600;text-decoration:underline}
-
-/* Cards */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.card-head{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.card-head h2{font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px}
+.card-head{padding:14px 16px;border-bottom:1px solid var(--border)}
+.card-head h2{font-size:14px;font-weight:600}
+.card-head p{font-size:12px;color:var(--text2);margin-top:2px}
 .card-body{padding:16px}
 
 /* Fields */
-.field{margin-bottom:12px}
+.field{margin-bottom:13px}
 .field:last-child{margin-bottom:0}
 .field label{display:block;font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.05em}
-.field input,.field select{width:100%;padding:11px 12px;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);outline:none;transition:border-color 0.15s,background 0.15s}
+.field input,.field select{width:100%;padding:12px 13px;font-family:'DM Sans',sans-serif;font-size:16px;color:var(--text);background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);outline:none;transition:border-color 0.15s,background 0.15s}
 .field input:focus,.field select:focus{border-color:var(--accent);background:#fff}
+.field input.filled{background:#fff;border-color:var(--green-border)}
 .field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6860' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;cursor:pointer}
 .phone-wrap{position:relative}
-.phone-prefix{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--text2);pointer-events:none;font-family:'DM Mono',monospace}
-.phone-wrap input{padding-left:46px}
+.phone-prefix{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--text2);pointer-events:none;font-family:'DM Mono',monospace}
+.phone-wrap input{padding-left:48px}
 
-/* Autocomplete */
-.suggest-wrap{position:relative}
-#suggestions{position:absolute;top:calc(100% + 2px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:0 6px 20px rgba(0,0,0,0.12);z-index:100;max-height:220px;overflow-y:auto;display:none}
-.s-item{padding:10px 12px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
-.s-item:last-child{border-bottom:none}
-.s-item:hover,.s-item.hi{background:var(--accent-bg)}
-.s-av{width:32px;height:32px;border-radius:50%;background:var(--accent-bg);color:var(--accent);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.s-info .s-name{font-size:13px;font-weight:500;color:var(--text)}
-.s-info .s-sub{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+/* Known member banner */
+#known-banner{display:none;background:var(--green-bg);border:1px solid var(--green-border);border-radius:var(--radius-sm);padding:11px 14px;margin-bottom:13px;display:none;align-items:center;gap:10px}
+#known-banner svg{flex-shrink:0;color:var(--green)}
+#known-banner p{font-size:13px;color:var(--green);line-height:1.4}
+#known-banner strong{font-weight:600}
 
 /* Buttons */
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;border-radius:var(--radius-sm);cursor:pointer;border:none;transition:opacity 0.15s,transform 0.1s;margin-top:4px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;border-radius:var(--radius-sm);cursor:pointer;border:none;transition:opacity 0.15s,transform 0.1s}
 .btn:active{transform:scale(0.98)}
-.btn:disabled{opacity:0.6;cursor:not-allowed}
-.btn-green{background:var(--green);color:#fff}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
+.btn-green{background:var(--green);color:#fff;margin-top:4px}
 .btn-green:hover:not(:disabled){opacity:0.88}
-.btn-accent{background:var(--accent);color:#fff}
-.btn-accent:hover:not(:disabled){opacity:0.88}
-.btn-sm{width:auto;padding:6px 12px;font-size:12px;font-weight:500;border:1px solid var(--border);background:var(--surface);color:var(--text2);border-radius:var(--radius-sm);cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-family:'DM Sans',sans-serif}
-.btn-sm:hover{background:var(--surface2)}
-.btn-sm.danger{color:var(--red);border-color:#fca5a5}
-.btn-sm.danger:hover{background:var(--red-bg)}
+.btn-outline{background:transparent;color:var(--text2);border:1.5px solid var(--border);margin-top:4px}
+.btn-outline:hover{background:var(--surface2)}
+
+/* Success screen */
+#success-screen{display:none;flex-direction:column;align-items:center;text-align:center;padding:32px 16px}
+.success-icon{width:70px;height:70px;border-radius:50%;background:var(--green-bg);border:2px solid var(--green-border);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.success-icon svg{color:var(--green)}
+#success-screen h2{font-size:22px;font-weight:600;margin-bottom:6px}
+#success-screen p{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:20px}
+.success-detail{background:var(--surface2);border-radius:var(--radius-sm);padding:13px 16px;width:100%;text-align:left;margin-bottom:20px}
+.success-detail .row{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px solid var(--border)}
+.success-detail .row:last-child{border-bottom:none;padding-bottom:0}
+.success-detail .row span:first-child{color:var(--text2)}
+.success-detail .row span:last-child{font-weight:500;text-align:right}
 
 /* Flash */
-.flash{border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;display:none;margin-top:10px;text-align:center;line-height:1.6}
+.flash{border-radius:var(--radius-sm);padding:11px 13px;font-size:13px;display:none;margin-top:10px;text-align:center;line-height:1.6}
 .flash.ok{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green)}
 .flash.fail{background:var(--red-bg);border:1px solid #fca5a5;color:var(--red)}
 
-/* Today's log list */
-#att-list{display:flex;flex-direction:column;gap:8px;max-height:360px;overflow-y:auto}
-.att-row{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--surface2);border-radius:var(--radius-sm);animation:pop 0.2s ease}
-@keyframes pop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
-.av{width:36px;height:36px;border-radius:50%;background:var(--accent-bg);color:var(--accent);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.att-info{flex:1;min-width:0}
-.att-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.att-sub{font-size:12px;color:var(--text2);font-family:'DM Mono',monospace}
-.att-loc{font-size:11px;color:var(--text3);margin-top:1px}
-.att-time{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;flex-shrink:0;text-align:right}
-.empty{text-align:center;color:var(--text3);font-size:13px;padding:28px 0}
-.count-pill{background:var(--accent-bg);color:var(--accent);font-size:12px;font-weight:700;padding:2px 10px;border-radius:99px}
-
-/* Members list */
-#member-list{display:flex;flex-direction:column;gap:8px;max-height:420px;overflow-y:auto}
-.member-row{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--surface2);border-radius:var(--radius-sm)}
-.member-info{flex:1;min-width:0}
-.member-name{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.member-sub{font-size:12px;color:var(--text2);font-family:'DM Mono',monospace}
-.member-actions{display:flex;gap:6px;flex-shrink:0}
-
-/* Add member form */
-#add-member-form{background:var(--surface2);border-radius:var(--radius-sm);padding:14px;margin-bottom:14px;display:none}
-#add-member-form .fields-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+/* Sheet link */
+.sheet-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--accent);text-decoration:none;margin-top:6px}
+.sheet-link:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -125,444 +109,331 @@ main{max-width:480px;margin:0 auto;padding:16px 14px 60px;display:flex;flex-dire
   <h1>Attendance</h1>
   <div class="sync-pill">
     <div class="dot on" id="sync-dot"></div>
-    <span id="sync-label">Sheets connected</span>
+    <span id="sync-label">Ready</span>
   </div>
 </header>
 
-<!-- Nav -->
-<div class="nav">
-  <button class="nav-tab active" onclick="showPage('log')">📋 Log Attendance</button>
-  <button class="nav-tab" onclick="showPage('members')">👥 Members</button>
-</div>
+<main>
 
-<!-- ═══════════════ PAGE: LOG ═══════════════ -->
-<main id="page-log">
-
-  <div class="connected-banner">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a7a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-    <p>✅ Syncing to your Google Sheet automatically on every check-in. <a href="https://docs.google.com/spreadsheets/d/113KIEqWC3NyGhiVz99Dg4lREqvcrVBTYuRktw5y6KGo/edit?gid=246908960#gid=246908960" target="_blank">Open Sheet ↗</a></p>
-  </div>
-
-  <div class="card">
-    <div class="card-head">
-      <h2>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-        Log Attendance
-      </h2>
-    </div>
-    <div class="card-body">
-
-      <!-- Name with autocomplete -->
-      <div class="field suggest-wrap">
-        <label>Name</label>
-        <input type="text" id="inp-name" placeholder="Type name to search…" autocomplete="off"
-          oninput="onNameInput(this.value)" onkeydown="onNameKey(event)"/>
-        <div id="suggestions"></div>
+  <!-- ── STEP: PHONE LOOKUP ── -->
+  <div id="step-phone">
+    <div class="card">
+      <div class="card-head">
+        <h2>Welcome! 👋</h2>
+        <p>Enter your handphone number to check in</p>
       </div>
-
-      <!-- Phone & Email -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="card-body">
         <div class="field">
           <label>Handphone Number</label>
           <div class="phone-wrap">
             <span class="phone-prefix">+65</span>
-            <input type="tel" id="inp-phone" placeholder="9xxx xxxx"
-              oninput="this.value=this.value.replace(/[^\d]/g,'').slice(0,8)"/>
+            <input type="tel" id="phone-input" placeholder="9xxx xxxx" maxlength="8"
+              oninput="this.value=this.value.replace(/[^\d]/g,'').slice(0,8); onPhoneInput(this.value)"
+              onkeydown="if(event.key==='Enter') nextFromPhone()"/>
           </div>
         </div>
+        <button class="btn btn-green" onclick="nextFromPhone()" id="phone-btn">
+          Continue →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP: DETAILS ── -->
+  <div id="step-details" style="display:none">
+    <div class="card">
+      <div class="card-head">
+        <h2 id="details-title">Your Details</h2>
+        <p id="details-sub">Please confirm your information</p>
+      </div>
+      <div class="card-body">
+
+        <!-- Returning member banner -->
+        <div id="known-banner">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <p>Welcome back, <strong id="known-name"></strong>! Your details have been filled in.</p>
+        </div>
+
         <div class="field">
-          <label>Email <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
-          <input type="email" id="inp-email" placeholder="email@example.com"/>
+          <label>Name</label>
+          <input type="text" id="name-input" placeholder="Your full name" autocomplete="name"
+            oninput="if(this.value) this.classList.add('filled'); else this.classList.remove('filled')"/>
         </div>
-      </div>
 
-      <!-- Location -->
-      <div class="field">
-        <label>Location</label>
-        <select id="inp-location">
-          <option value="">— Select location —</option>
-          <option>面包物语练功场</option>
-          <option>碧山Active Park练功场</option>
-          <option>植物园 练功场</option>
-          <option>碧山-宏茂桥公园</option>
-          <option>淡滨尼东民众俱乐部</option>
-          <option>蔡厝港公园</option>
-          <option>107A Aljunied Crescent</option>
-          <option>金文泰体育馆 Clementi Sports Hall</option>
-        </select>
-      </div>
-
-      <button class="btn btn-green" onclick="logAttendance()" id="log-btn">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        Confirm &amp; Log Attendance
-      </button>
-      <div class="flash" id="flash"></div>
-    </div>
-  </div>
-
-  <!-- Today's log -->
-  <div class="card">
-    <div class="card-head">
-      <h2>Today's Log</h2>
-      <div style="display:flex;gap:8px;align-items:center">
-        <span class="count-pill" id="count">0</span>
-        <button class="btn-sm" onclick="exportCSV()">⬇️ CSV</button>
-      </div>
-    </div>
-    <div class="card-body" style="padding:10px 14px">
-      <div id="att-list"><div class="empty">No attendance yet</div></div>
-    </div>
-  </div>
-
-</main>
-
-<!-- ═══════════════ PAGE: MEMBERS ═══════════════ -->
-<main id="page-members" style="display:none">
-
-  <div class="card">
-    <div class="card-head">
-      <h2>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Members <span id="member-count" style="font-size:12px;color:var(--text3);font-weight:400;margin-left:4px"></span>
-      </h2>
-      <button class="btn-sm" onclick="toggleAddForm()" id="add-btn">+ Add Member</button>
-    </div>
-    <div class="card-body">
-
-      <!-- Add / Edit form -->
-      <div id="add-member-form">
-        <div class="fields-row">
-          <div class="field" style="margin-bottom:0">
-            <label>Name</label>
-            <input type="text" id="m-name" placeholder="Full name"/>
-          </div>
-          <div class="field" style="margin-bottom:0">
-            <label>Handphone</label>
-            <div class="phone-wrap">
+        <div class="field">
+          <label>Handphone Number</label>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="phone-wrap" style="flex:1">
               <span class="phone-prefix">+65</span>
-              <input type="tel" id="m-phone" placeholder="9xxx xxxx"
-                oninput="this.value=this.value.replace(/[^\d]/g,'').slice(0,8)"/>
+              <input type="tel" id="phone-display" class="filled"
+                oninput="this.value=this.value.replace(/[^\d]/g,'').slice(0,8); onPhoneDisplayInput(this.value)"
+                onkeydown="if(event.key==='Enter') document.getElementById('location-input').focus()"/>
             </div>
+            <button type="button" onclick="clearPhone()"
+              style="flex-shrink:0;padding:10px 13px;font-size:13px;font-weight:500;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text2);cursor:pointer;font-family:inherit;white-space:nowrap">
+              ✏️ Change
+            </button>
           </div>
+          <div id="phone-lookup-msg" style="font-size:12px;color:var(--green);margin-top:5px;display:none"></div>
         </div>
-        <div class="field" style="margin-top:10px;margin-bottom:10px">
-          <label>Email <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
-          <input type="email" id="m-email" placeholder="email@example.com"/>
+
+        <div class="field">
+          <label>Location</label>
+          <select id="location-input">
+            <option value="">— Select your location —</option>
+            <option>面包物语练功场</option>
+            <option>碧山Active Park练功场</option>
+            <option>植物园 练功场</option>
+            <option>碧山-宏茂桥公园</option>
+            <option>淡滨尼东民众俱乐部</option>
+            <option>蔡厝港公园</option>
+            <option>107A Aljunied Crescent</option>
+            <option>金文泰体育馆 Clementi Sports Hall</option>
+          </select>
         </div>
-        <div style="display:flex;gap:8px">
-          <button class="btn btn-accent" style="margin-top:0;flex:1;padding:10px" onclick="saveMemberForm()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            <span id="save-btn-label">Save Member</span>
+
+        <button class="btn btn-green" onclick="submitAttendance()" id="submit-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Submit Attendance
+        </button>
+        <button class="btn btn-outline" onclick="goBack()">← Change phone number</button>
+        <div class="flash" id="submit-flash"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SUCCESS SCREEN ── -->
+  <div id="step-success" style="display:none">
+    <div class="card">
+      <div class="card-body">
+        <div id="success-screen">
+          <div class="success-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h2>Attendance Recorded!</h2>
+          <p id="success-msg">Your attendance has been submitted successfully.</p>
+          <div class="success-detail" id="success-detail"></div>
+          <button class="btn btn-green" onclick="resetForm()" style="width:100%;margin-top:0">
+            ✓ Done — Submit Another
           </button>
-          <button class="btn-sm" style="padding:10px 16px" onclick="cancelForm()">Cancel</button>
+          <a class="sheet-link" href="https://docs.google.com/spreadsheets/d/113KIEqWC3NyGhiVz99Dg4lREqvcrVBTYuRktw5y6KGo/edit?gid=246908960#gid=246908960" target="_blank">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            View in Google Sheets
+          </a>
         </div>
-        <input type="hidden" id="edit-key"/>
       </div>
-
-      <!-- Search -->
-      <div class="field" style="margin-bottom:12px">
-        <input type="text" id="member-search" placeholder="Search members…" oninput="renderMembers(this.value)"/>
-      </div>
-
-      <div id="member-list"><div class="empty">No members yet — tap Add Member to start</div></div>
     </div>
   </div>
 
 </main>
 
 <script>
-// ── Config ────────────────────────────────────────────────────
+// ── Config ─────────────────────────────────────────────────────
 const SCRIPT_URL  = 'https://script.google.com/macros/s/AKfycbz2Ay8bJFcDyoDKqS5R8B_lWS4R9fN_GwkazJd3-ggRtQURSLRXvQQjD-RHTO-H7GgLjQ/exec';
-const SHEET_URL   = 'https://docs.google.com/spreadsheets/d/113KIEqWC3NyGhiVz99Dg4lREqvcrVBTYuRktw5y6KGo/edit?gid=246908960#gid=246908960';
-const MEMBERS_KEY = 'att_members_v6';
+const MEMBERS_KEY = 'att_members_v8';
 
-let records = [], members = {}, sugIdx = -1;
+let members = {};
+let currentPhone = '';
 
-// ── Init ──────────────────────────────────────────────────────
+// ── Init ────────────────────────────────────────────────────────
 window.addEventListener('load', () => {
   try { members = JSON.parse(localStorage.getItem(MEMBERS_KEY) || '{}'); } catch(e) { members = {}; }
-  renderMembers();
-  updateMemberCount();
+  document.getElementById('phone-input').focus();
 });
 
-// ── Page navigation ───────────────────────────────────────────
-function showPage(p) {
-  document.getElementById('page-log').style.display     = p === 'log'     ? 'flex' : 'none';
-  document.getElementById('page-members').style.display = p === 'members' ? 'flex' : 'none';
-  document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', (p==='log'&&i===0)||(p==='members'&&i===1)));
-  if (p === 'members') renderMembers();
+// ── Step 1: Phone input ─────────────────────────────────────────
+function onPhoneInput(val) {
+  // Auto-highlight if known member
+  const phone = '+65' + val;
+  const btn = document.getElementById('phone-btn');
+  if (val.length === 8) {
+    btn.textContent = members[phone] ? '✓ Welcome back — Continue →' : 'Continue →';
+  } else {
+    btn.textContent = 'Continue →';
+  }
 }
 
-// ── Sync via JSONP ────────────────────────────────────────────
-function syncToSheets(record) {
-  return new Promise((resolve) => {
+function nextFromPhone() {
+  const raw = document.getElementById('phone-input').value.replace(/[^\d]/g, '');
+  if (raw.length < 8) { shake('phone-input'); return; }
+  currentPhone = '+65' + raw;
+
+  // Show details step
+  document.getElementById('step-phone').style.display    = 'none';
+  document.getElementById('step-details').style.display  = 'block';
+  document.getElementById('phone-display').value         = raw;
+  document.getElementById('phone-lookup-msg').style.display = 'none';
+
+  const known = members[currentPhone];
+  if (known) {
+    // Returning member — pre-fill name
+    document.getElementById('name-input').value = known.name;
+    document.getElementById('name-input').classList.add('filled');
+    document.getElementById('known-name').textContent = known.name;
+    document.getElementById('known-banner').style.display = 'flex';
+    document.getElementById('details-title').textContent = 'Welcome back! 🎉';
+    document.getElementById('details-sub').textContent   = 'Just select your location and submit.';
+    document.getElementById('location-input').focus();
+  } else {
+    // New member
+    document.getElementById('known-banner').style.display = 'none';
+    document.getElementById('details-title').textContent  = 'First time? Welcome! 👋';
+    document.getElementById('details-sub').textContent    = 'Please enter your name and location.';
+    document.getElementById('name-input').value = '';
+    document.getElementById('name-input').classList.remove('filled');
+    document.getElementById('name-input').focus();
+  }
+  // Always reset location
+  document.getElementById('location-input').selectedIndex = 0;
+}
+
+function clearPhone() {
+  // Allow editing phone number directly — re-lookup member on change
+  const el = document.getElementById('phone-display');
+  el.focus();
+  el.select();
+}
+
+function onPhoneDisplayInput(val) {
+  const phone = '+65' + val;
+  currentPhone = phone;
+  const msg = document.getElementById('phone-lookup-msg');
+  if (val.length === 8) {
+    const known = members[phone];
+    if (known) {
+      // Found — update name field
+      document.getElementById('name-input').value = known.name;
+      document.getElementById('name-input').classList.add('filled');
+      document.getElementById('known-name').textContent = known.name;
+      document.getElementById('known-banner').style.display = 'flex';
+      msg.textContent = '✅ Member found: ' + known.name;
+      msg.style.color = 'var(--green)';
+      msg.style.display = 'block';
+    } else {
+      // New number
+      document.getElementById('known-banner').style.display = 'none';
+      document.getElementById('name-input').value = '';
+      document.getElementById('name-input').classList.remove('filled');
+      msg.textContent = 'New number — please enter your name above.';
+      msg.style.color = 'var(--text3)';
+      msg.style.display = 'block';
+      document.getElementById('name-input').focus();
+    }
+  } else {
+    msg.style.display = 'none';
+  }
+}
+
+function goBack() {
+  document.getElementById('step-details').style.display = 'none';
+  document.getElementById('step-phone').style.display   = 'block';
+  document.getElementById('phone-input').focus();
+  document.getElementById('submit-flash').style.display = 'none';
+}
+
+// ── Step 2: Submit ──────────────────────────────────────────────
+async function submitAttendance() {
+  const name     = document.getElementById('name-input').value.trim();
+  const location = document.getElementById('location-input').value;
+
+  if (!name)     { shake('name-input');     return; }
+  if (!location) { shake('location-input'); return; }
+
+  // Save member for future visits
+  members[currentPhone] = { name, phone: currentPhone };
+  localStorage.setItem(MEMBERS_KEY, JSON.stringify(members));
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Submitting…`;
+
+  const now  = new Date();
+  const time = now.toLocaleTimeString('en-SG', { hour: '2-digit', minute: '2-digit' });
+  const date = now.toLocaleDateString('en-SG');
+  const record = { name, phone: currentPhone, email: '', location };
+
+  const ok = await syncToSheets(record);
+
+  btn.disabled = false;
+  btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Submit Attendance`;
+
+  if (ok) {
+    // Show success screen
+    document.getElementById('step-details').style.display = 'none';
+    document.getElementById('step-success').style.display = 'block';
+    document.getElementById('success-msg').textContent    = 'Thank you, ' + name + '! See you next time.';
+    document.getElementById('success-detail').innerHTML   = `
+      <div class="row"><span>Name</span><span>${name}</span></div>
+      <div class="row"><span>Phone</span><span>${currentPhone}</span></div>
+      <div class="row"><span>Location</span><span>${location}</span></div>
+      <div class="row"><span>Time</span><span>${time}, ${date}</span></div>
+    `;
+  } else {
+    const f = document.getElementById('submit-flash');
+    f.innerHTML = '⚠️ Submission failed. Please try again or check your connection.';
+    f.className = 'flash fail'; f.style.display = 'block';
+  }
+}
+
+// ── Reset for next person ───────────────────────────────────────
+function resetForm() {
+  currentPhone = '';
+  document.getElementById('step-success').style.display = 'none';
+  document.getElementById('step-phone').style.display   = 'block';
+  document.getElementById('phone-input').value          = '';
+  document.getElementById('phone-btn').textContent      = 'Continue →';
+  document.getElementById('submit-flash').style.display = 'none';
+  document.getElementById('phone-input').focus();
+}
+
+// ── Sync via JSONP ──────────────────────────────────────────────
+function syncToSheets(rec) {
+  return new Promise(resolve => {
     setDot('busy', 'Syncing…');
-    // Only send the columns that exist in the sheet:
-    // Timestamp (server-side), Name, Email, Location, Handphone Number
     const params = new URLSearchParams({
-      name:     record.name,
-      email:    record.email || '',
-      location: record.location,
-      phone:    record.phone
+      name:     rec.name,
+      email:    rec.email || '',
+      location: rec.location,
+      phone:    rec.phone
     });
     const cbName = 'cb_' + Date.now();
     const script = document.createElement('script');
     const timer  = setTimeout(() => { cleanup(); setDot('on', 'Sent ✓'); resolve(true); }, 8000);
-    window[cbName] = (data) => {
+    window[cbName] = (d) => {
       cleanup();
-      setDot(data && data.status==='ok' ? 'on' : 'err', data && data.status==='ok' ? 'Synced ✓' : 'Error');
-      resolve(data && data.status === 'ok');
+      const ok = d && d.status === 'ok';
+      setDot(ok ? 'on' : 'err', ok ? 'Synced ✓' : 'Error');
+      resolve(ok);
     };
     function cleanup() {
       clearTimeout(timer); delete window[cbName];
       try { script.parentNode && script.parentNode.removeChild(script); } catch(e) {}
     }
-    script.onerror = () => { cleanup(); setDot('err','Failed'); resolve(false); };
+    script.onerror = () => { cleanup(); setDot('err', 'Failed'); resolve(false); };
     script.src = SCRIPT_URL + '?' + params.toString() + '&callback=' + cbName;
     document.head.appendChild(script);
   });
 }
 
-function setDot(state, label) {
-  document.getElementById('sync-dot').className = 'dot ' + (state||'');
-  document.getElementById('sync-label').textContent = label;
+function setDot(s, l) {
+  document.getElementById('sync-dot').className = 'dot ' + (s || '');
+  document.getElementById('sync-label').textContent = l;
 }
 
-// ── Members storage ───────────────────────────────────────────
-function saveMembers() {
-  localStorage.setItem(MEMBERS_KEY, JSON.stringify(members));
-  updateMemberCount();
-}
-
-function updateMemberCount() {
-  const n = Object.keys(members).length;
-  document.getElementById('member-count').textContent = n ? '(' + n + ')' : '';
-}
-
-// ── Add / Edit member form ────────────────────────────────────
-function toggleAddForm() {
-  const form = document.getElementById('add-member-form');
-  const open = form.style.display === 'block';
-  form.style.display = open ? 'none' : 'block';
-  document.getElementById('add-btn').textContent = open ? '+ Add Member' : '✕ Cancel';
-  if (!open) { clearForm(); document.getElementById('m-name').focus(); }
-}
-
-function cancelForm() {
-  document.getElementById('add-member-form').style.display = 'none';
-  document.getElementById('add-btn').textContent = '+ Add Member';
-  clearForm();
-}
-
-function clearForm() {
-  document.getElementById('m-name').value  = '';
-  document.getElementById('m-phone').value = '';
-  document.getElementById('m-email').value = '';
-  document.getElementById('edit-key').value = '';
-  document.getElementById('save-btn-label').textContent = 'Save Member';
-}
-
-function saveMemberForm() {
-  const name  = document.getElementById('m-name').value.trim();
-  const raw   = document.getElementById('m-phone').value.replace(/[^\d]/g,'');
-  const phone = raw ? '+65' + raw : '';
-  const email = document.getElementById('m-email').value.trim();
-  const editKey = document.getElementById('edit-key').value;
-
-  if (!name)  { alert('Please enter a name.'); return; }
-  if (!phone) { alert('Please enter a phone number.'); return; }
-
-  // If editing, remove old key first
-  if (editKey && editKey !== phone) delete members[editKey];
-
-  members[phone] = { name, phone, email };
-  saveMembers();
-  renderMembers();
-  cancelForm();
-}
-
-function editMember(phone) {
-  const m = members[phone];
-  if (!m) return;
-  document.getElementById('add-member-form').style.display = 'block';
-  document.getElementById('add-btn').textContent = '✕ Cancel';
-  document.getElementById('m-name').value  = m.name;
-  document.getElementById('m-phone').value = m.phone.replace(/^\+65/,'');
-  document.getElementById('m-email').value = m.email || '';
-  document.getElementById('edit-key').value = phone;
-  document.getElementById('save-btn-label').textContent = 'Update Member';
-  document.getElementById('m-name').focus();
-  document.getElementById('add-member-form').scrollIntoView({behavior:'smooth'});
-}
-
-function deleteMember(phone) {
-  const m = members[phone];
-  if (!m) return;
-  if (!confirm('Remove ' + m.name + ' from members?')) return;
-  delete members[phone];
-  saveMembers();
-  renderMembers();
-}
-
-// ── Render members list ───────────────────────────────────────
-function renderMembers(query) {
-  const el = document.getElementById('member-list');
-  let list = Object.values(members);
-  if (query && query.trim()) {
-    const q = query.toLowerCase();
-    list = list.filter(m => m.name.toLowerCase().includes(q) || (m.phone||'').includes(q) || (m.email||'').toLowerCase().includes(q));
-  }
-  list.sort((a,b) => a.name.localeCompare(b.name));
-  if (!list.length) {
-    el.innerHTML = '<div class="empty">' + (query ? 'No members match "'+query+'"' : 'No members yet — tap Add Member to start') + '</div>';
-    return;
-  }
-  el.innerHTML = list.map(m => {
-    const ini = m.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-    return `<div class="member-row">
-      <div class="av">${ini}</div>
-      <div class="member-info">
-        <div class="member-name">${m.name}</div>
-        <div class="member-sub">${m.phone}${m.email ? ' · '+m.email : ''}</div>
-      </div>
-      <div class="member-actions">
-        <button class="btn-sm" onclick="editMember('${m.phone}')">✏️ Edit</button>
-        <button class="btn-sm danger" onclick="deleteMember('${m.phone}')">🗑</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-// ── Autocomplete on log page ──────────────────────────────────
-function onNameInput(val) {
-  sugIdx = -1;
-  const box = document.getElementById('suggestions');
-  if (!val || val.length < 1) { box.style.display='none'; return; }
-  const q = val.toLowerCase();
-  const hits = Object.values(members).filter(m => m.name.toLowerCase().includes(q)).slice(0, 6);
-  if (!hits.length) { box.style.display='none'; return; }
-  box.innerHTML = hits.map((m,i) => {
-    const ini = m.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-    return `<div class="s-item" id="si${i}" onmousedown="pickMember('${m.phone}')">
-      <div class="s-av">${ini}</div>
-      <div class="s-info">
-        <div class="s-name">${m.name}</div>
-        <div class="s-sub">${m.phone}${m.email?' · '+m.email:''}</div>
-      </div>
-    </div>`;
-  }).join('');
-  box.style.display = 'block';
-}
-
-function onNameKey(e) {
-  const items = document.querySelectorAll('#suggestions .s-item');
-  if (!items.length) return;
-  if (e.key==='ArrowDown') { sugIdx=Math.min(sugIdx+1,items.length-1); items.forEach((el,i)=>el.classList.toggle('hi',i===sugIdx)); e.preventDefault(); }
-  else if (e.key==='ArrowUp') { sugIdx=Math.max(sugIdx-1,0); items.forEach((el,i)=>el.classList.toggle('hi',i===sugIdx)); e.preventDefault(); }
-  else if (e.key==='Enter'&&sugIdx>=0) { items[sugIdx].dispatchEvent(new MouseEvent('mousedown')); e.preventDefault(); }
-  else if (e.key==='Escape') { document.getElementById('suggestions').style.display='none'; }
-}
-
-function pickMember(phone) {
-  const m = members[phone];
-  if (!m) return;
-  document.getElementById('inp-name').value  = m.name;
-  document.getElementById('inp-phone').value = m.phone.replace(/^\+65/,'');
-  document.getElementById('inp-email').value = m.email || '';
-  document.getElementById('suggestions').style.display = 'none';
-  document.getElementById('inp-location').focus();
-}
-
-document.addEventListener('click', e => {
-  if (!e.target.closest('.suggest-wrap')) document.getElementById('suggestions').style.display='none';
-});
-
-// ── Log attendance ────────────────────────────────────────────
-async function logAttendance() {
-  const name     = document.getElementById('inp-name').value.trim();
-  const rawPhone = document.getElementById('inp-phone').value.replace(/[^\d]/g,'');
-  const phone    = rawPhone ? '+65'+rawPhone : '';
-  const email    = document.getElementById('inp-email').value.trim();
-  const location = document.getElementById('inp-location').value;
-
-  if (!name)     { showFlash('⚠️ Please enter the member\'s name.', false); return; }
-  if (!phone)    { showFlash('⚠️ Please enter the handphone number.', false); return; }
-  if (!location) { showFlash('⚠️ Please select a location.', false); return; }
-
-  // Auto-save to members if not already there
-  if (!members[phone]) {
-    members[phone] = { name, phone, email };
-    saveMembers();
-  }
-
-  const now  = new Date();
-  const time = now.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit'});
-  const date = now.toLocaleDateString('en-SG');
-  const record = { name, phone, email, location, time, date, synced: false };
-
-  records.push(record);
-  renderLog();
-
-  // Keep name + phone + email, only reset location
-  document.getElementById('inp-location').selectedIndex = 0;
-  document.getElementById('suggestions').style.display  = 'none';
-
-  const btn = document.getElementById('log-btn');
-  btn.disabled = true;
-  btn.innerHTML = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Syncing…`;
-
-  const ok = await syncToSheets(record);
-  record.synced = ok;
-  renderLog();
-
-  btn.disabled = false;
-  btn.innerHTML = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Confirm &amp; Log Attendance`;
-
-  showFlash(
-    ok ? `✅ <strong>${name}</strong> logged at ${time} — <a href="${SHEET_URL}" target="_blank" style="color:var(--green);font-weight:600">View in Sheets ↗</a>`
-       : `✅ <strong>${name}</strong> saved locally. ⚠️ Sync failed — check Apps Script deployment.`,
-    ok
-  );
-}
-
-function showFlash(html, ok) {
-  const el = document.getElementById('flash');
-  el.innerHTML = html; el.className = 'flash '+(ok?'ok':'fail'); el.style.display='block';
-  setTimeout(()=>{ el.style.display='none'; }, 6000);
-}
-
-// ── Render log ────────────────────────────────────────────────
-function renderLog() {
-  const el = document.getElementById('att-list');
-  document.getElementById('count').textContent = records.length;
-  if (!records.length) { el.innerHTML='<div class="empty">No attendance yet</div>'; return; }
-  el.innerHTML = records.slice().reverse().map(r => {
-    const ini = r.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-    return `<div class="att-row">
-      <div class="av">${ini}</div>
-      <div class="att-info">
-        <div class="att-name">${r.name} <span style="font-size:11px">${r.synced?'🟢':'🔴'}</span></div>
-        <div class="att-sub">${r.phone}${r.email?' · '+r.email:''}</div>
-        <div class="att-loc">${r.location}</div>
-      </div>
-      <div class="att-time">${r.time}<br/>${r.date}</div>
-    </div>`;
-  }).join('');
-}
-
-// ── Export CSV ────────────────────────────────────────────────
-function exportCSV() {
-  if (!records.length) { alert('No records yet.'); return; }
-  const rows = [
-    ['Timestamp','Name','Email','Location','Handphone Number','Synced'],
-    ...records.map(r => [r.date+' '+r.time, r.name, r.email||'', r.location, r.phone, r.synced?'Yes':'No'])
-  ];
-  const csv = rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
-  a.download = 'attendance_'+new Date().toLocaleDateString('en-SG').replace(/\//g,'-')+'.csv';
-  a.click();
+// ── Shake animation for validation ─────────────────────────────
+function shake(id) {
+  const el = document.getElementById(id);
+  el.style.animation = 'none';
+  el.style.borderColor = 'var(--red)';
+  el.offsetHeight;
+  el.style.animation = 'shake 0.3s ease';
+  el.focus();
+  setTimeout(() => { el.style.borderColor = ''; el.style.animation = ''; }, 800);
 }
 </script>
+<style>
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+#success-screen{display:flex}
+</style>
 </body>
 </html>
