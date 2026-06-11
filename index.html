@@ -350,7 +350,8 @@ async function submitAttendance() {
   const now  = new Date();
   const time = now.toLocaleTimeString('en-SG', { hour: '2-digit', minute: '2-digit' });
   const date = now.toLocaleDateString('en-SG');
-  const record = { name, phone: currentPhone, email: '', location };
+  const phoneClean = currentPhone.replace(/^\+65/, '');
+  const record = { name, phone: phoneClean, email: '', location };
 
   const ok = await syncToSheets(record);
 
@@ -364,7 +365,7 @@ async function submitAttendance() {
     document.getElementById('success-msg').textContent    = 'Thank you, ' + name + '! See you next time.';
     document.getElementById('success-detail').innerHTML   = `
       <div class="row"><span>Name</span><span>${name}</span></div>
-      <div class="row"><span>Phone</span><span>${currentPhone}</span></div>
+      <div class="row"><span>Phone</span><span>+65 ${phoneClean}</span></div>
       <div class="row"><span>Location</span><span>${location}</span></div>
       <div class="row"><span>Time</span><span>${time}, ${date}</span></div>
     `;
