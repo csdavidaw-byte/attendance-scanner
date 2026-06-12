@@ -131,6 +131,7 @@ main{max-width:440px;margin:0 auto;padding:20px 16px 60px;display:flex;flex-dire
               oninput="this.value=this.value.replace(/[^\d]/g,'').slice(0,8); onPhoneInput(this.value)"
               onkeydown="if(event.key==='Enter') nextFromPhone()"/>
           </div>
+          <div id="last-phone-msg" style="font-size:12px;color:var(--green);margin-top:6px;display:none"></div>
         </div>
         <button class="btn btn-green" onclick="nextFromPhone()" id="phone-btn">
           Continue →
@@ -236,9 +237,22 @@ let members = {};
 let currentPhone = '';
 
 // ── Init ────────────────────────────────────────────────────────
+const LAST_PHONE_KEY = 'att_last_phone_v1';
+
 window.addEventListener('load', () => {
   try { members = JSON.parse(localStorage.getItem(MEMBERS_KEY) || '{}'); } catch(e) { members = {}; }
+
+  // Restore last used phone number
+  const lastPhone = localStorage.getItem(LAST_PHONE_KEY);
+  if (lastPhone) {
+    const digits = lastPhone.replace(/^\+65/, '');
+    document.getElementById('phone-input').value = digits;
+    onPhoneInput(digits);
+    document.getElementById('last-phone-msg').style.display = 'block';
+    document.getElementById('last-phone-msg').textContent = '📱 Last used: +65 ' + digits + ' — tap Continue or change it';
+  }
   document.getElementById('phone-input').focus();
+  document.getElementById('phone-input').select();
 });
 
 // ── Step 1: Phone input ─────────────────────────────────────────
@@ -257,6 +271,7 @@ function nextFromPhone() {
   const raw = document.getElementById('phone-input').value.replace(/[^\d]/g, '');
   if (raw.length < 8) { shake('phone-input'); return; }
   currentPhone = '+65' + raw;
+  localStorage.setItem(LAST_PHONE_KEY, currentPhone);
 
   // Show details step
   document.getElementById('step-phone').style.display    = 'none';
